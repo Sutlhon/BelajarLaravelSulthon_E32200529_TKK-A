@@ -25,10 +25,10 @@
   <!-- easy pie chart-->
   <link href="{{ asset('backend/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css') }}" rel="stylesheet" type="text/css" media="screen" />
   <!-- owl carousel -->
-  <link rel="stylesheet" href="{{ asset('backend/css/owl.carousel.css') }}" type="text/css">
+  <link href="{{ asset('backend/css/owl.carousel.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ asset('backend/css/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet">
   <!-- Custom styles -->
-  <link rel="stylesheet" href="{{ asset('backend/css/fullcalendar.css') }}">
+  <link href="{{ asset('backend/css/fullcalendar.css') }}" rel="stylesheet">
   <link href="{{ asset('backend/css/widgets.css') }}" rel="stylesheet">
   <link href="{{ asset('backend/css/style.css') }}" rel="stylesheet">
   <link href="{{ asset('backend/css/style-responsive.css') }}" rel="stylesheet" />
@@ -274,7 +274,7 @@
                             <span class="profile-ava">
                                 <img alt="" src="img/avatar1_small.jpg">
                             </span>
-                            <span class="username">Jenifer Smith</span>
+                            <span class="username">{{ Auth::user()->name }}</span>
                             <b class="caret"></b>
                         </a>
             <ul class="dropdown-menu extended logout">
@@ -292,7 +292,13 @@
                 <a href="#"><i class="icon_chat_alt"></i> Chats</a>
               </li>
               <li>
-                <a href="login.html"><i class="icon_key_alt"></i> Log Out</a>
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                      document.getElementByID('logout=from').submit();">
+                  <i class="icon_key_alt"></i>{{ __('logout') }}
+                </a>
+                <form id="logout-from" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+                </form>
               </li>
               <li>
                 <a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>

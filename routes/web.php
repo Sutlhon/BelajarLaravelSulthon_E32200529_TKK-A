@@ -34,3 +34,19 @@ Route::group(['namespace' => 'backend'], function()
     {
         Route::resource('dashboard', 'DashboardController');
     });
+Auth::routes();
+
+Route::group(['namespace' => 'Frontend'], function()
+    {
+        Route::get('/', 'HomeController@index');
+        Route::resource('home', 'HomeController');
+    });
+
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::group(['namespace' => 'Backend'], function()
+        {
+            Route::resource('dashboard', 'DashboardController');
+        });
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
