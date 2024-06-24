@@ -13,24 +13,61 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/gambar', function(){
-    return view('gambar');
+Route::get('/', function () {
+    return view('welcome');
 });
 
-
-//Route::get('user', 'PengontrolManajemenPengguna@index');
-Route::resource('user', "PengontrolManajemenPengguna");
-
-Route::get("/home", function(){
-    return view("home");
+Route::get('/hello', function () {
+    return 'Hello Word';
 });
 
-Route::group(['namespace' => 'frontend'], function()
+Route::get('belajar', function() {
+    echo '<h1>Hello World</h1>';
+    echo '<p>sedang belajar laravel</p>';
+});
+
+Route::get('page/{nomor}', function($nomor){
+    return 'Ini halaman ke-' . $nomor;
+});
+
+Route::get('image', function () {
+    return view('img');
+});
+
+Route::get('multiple_images', function () {
+    return view('multi_img');
+});
+
+Route::get('Controller1', 'Controller1@index');
+Route::resource('user', 'Controller1');
+
+//Route::get('/home', function () {
+    //return view('coba1');
+//});
+
+//Route::group(['namespace' => 'Frontend'], function()
+//{
+    //Route::resource('home', 'HomeController');
+//});
+
+//Route::group(['namespace' => 'Backend'], function()
+//{
+    //Route::resource('dashboard', 'DashboardController');
+//});
+
+Auth::routes();
+
+Route::group(['namespace' => 'Frontend'], function()
     {
-        Route::resource('home', "HomeController");
+        Route::get('/', 'HomeController@index');
+        Route::resource('home', 'HomeController');
     });
 
-Route::group(['namespace' => 'backend'], function()
+Route::group(['middleware' => ['web','auth']], function()
     {
-        Route::resource('dashboard', 'DashboardController');
-    });
+        Route::group(['namespace' => 'Backend'], function()
+        {
+            Route::resource('dashboard', 'DashboardController');
+            Route::resource('pendidikan', 'PendidikanController');
+        });
+});
